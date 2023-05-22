@@ -1,0 +1,29 @@
+.mainDiv {
+    margin-top: 1rem;
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: 3rem 1fr 2fr 2fr 3rem;
+
+}
+.icon{
+    grid-column: 2;
+}
+
+.inner_div_Links{
+    grid-column: 4;
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+    margin-top: 0.5rem;
+}
+@media (max-width: 500px) {
+    .mainDiv{
+        grid-template-columns: 1rem 1fr 2fr 1rem;
+    }
+    .inner_div_Links{
+        grid-column: 3;
+        gap: 1rem;
+        justify-content: space-around;
+    }
+}

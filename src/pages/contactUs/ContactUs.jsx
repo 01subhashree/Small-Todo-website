@@ -2,8 +2,9 @@ import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import joi from "joi-browser";
 import { useNavigate } from "react-router-dom";
-import { userDetails, userName } from "../../Atom";
+import { userDetails, userNames } from "../../Atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import style from "./ContactUs.module.css";
 
 const userSchema = joi.object({
   firstName: joi.string().min(4).max(20).required(),
@@ -12,6 +13,11 @@ const userSchema = joi.object({
   phone: joi.number().max(9999999999),
 });
 
+const Mystyle = {
+  border: "1px solid black",
+  backgroundColor: "white",
+};
+
 export default function ContactUs() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,7 +25,7 @@ export default function ContactUs() {
   const [phone, setPhone] = useState("");
   const navigate = useNavigate();
   const [userData, setUserData] = useRecoilState(userDetails);
-  const setUserName = useSetRecoilState(userName);
+  const setUserName = useSetRecoilState(userNames);
 
   const handleSubmit = () => {
     const { error } = userSchema.validate(
@@ -45,6 +51,7 @@ export default function ContactUs() {
 
       const userFullName = { firstName: firstName, lastName: lastName };
       setUserName(userFullName);
+      localStorage.setItem("userName", JSON.stringify(userFullName));
     } else {
       alert("enter valid details");
     }
@@ -53,34 +60,45 @@ export default function ContactUs() {
   };
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <TextField
-        id="filled-basic"
-        label="firstName"
-        variant="filled"
-        onChange={(e) => setFirstName(e.target.value)}
-      />
-      <TextField
-        id="filled-basic2"
-        label="lastName"
-        variant="filled"
-        onChange={(e) => setLastName(e.target.value)}
-      />
-      <TextField
-        id="filled-basic3"
-        label="email"
-        variant="filled"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id="filled-basic4"
-        label="phone"
-        variant="filled"
-        onChange={(e) => setPhone(e.target.value)}
-      />
-      <Button onClick={handleSubmit} variant="contained">
-        Submit
-      </Button>
+    <form onSubmit={(e) => e.preventDefault()} className={style.mainDiv_from}>
+      <span className={style.innerDiv_from}>
+        <TextField
+          sx={Mystyle}
+          id="filled-basic"
+          label="firstName"
+          variant="filled"
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <TextField
+          sx={Mystyle}
+          id="filled-basic2"
+          label="lastName"
+          variant="filled"
+          onChange={(e) => setLastName(e.target.value)}
+        />
+        <TextField
+          sx={Mystyle}
+          id="filled-basic3"
+          label="email"
+          variant="filled"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          sx={Mystyle}
+          id="filled-basic4"
+          label="phone"
+          variant="filled"
+          onChange={(e) => setPhone(e.target.value)}
+        />
+
+        <Button
+          onClick={handleSubmit}
+          variant="contained"
+          sx={{ backgroundColor: "#1928d2" }}
+        >
+          Submit
+        </Button>
+      </span>
     </form>
   );
 }
